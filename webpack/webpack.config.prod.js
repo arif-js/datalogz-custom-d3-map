@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 module.exports = {
   devtool: "source-map",
   entry: {
-    "react.d3.treemap": "./src/indexPackage.ts",
+    "datalogz-custom-d3-map": "./src/indexPackage.ts",
   },
   context: resolve(__dirname, "../"),
   output: {

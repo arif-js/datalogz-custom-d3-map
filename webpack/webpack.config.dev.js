@@ -11,7 +11,7 @@ module.exports = {
   devtool: "inline-source-map",
   target: "web",
   entry: {
-    "react.d3.treemap": "./src/index.tsx"
+    "datalogz-custom-d3-map": "./src/index.tsx"
   },
   output: {
     filename: "static/js/[name].[fullhash].js",
