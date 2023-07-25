@@ -1,6 +1,6 @@
 {
   "name": "datalogz-custom-d3-map",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "a wrapper around the real package jquintozamora/react-d3-treemap",
   "main": "dist/datalogz-custom-d3-map.js",
   "types": "dist/indexPackage.d.ts",
@@ -39,8 +39,8 @@
     "d3-interpolate": "2.0.1",
     "d3-scale": "3.2.3",
     "d3-scale-chromatic": "2.0.0",
-    "node-sass": "^9.0.0",
-    "react-use": "17.2.1"
+    "react-use": "17.2.1",
+    "sass": "^1.64.1"
   },
   "peerDependencies": {
     "react": "16.x.x || 17.x.x || 18.x.x",
