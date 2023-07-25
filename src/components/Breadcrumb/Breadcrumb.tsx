@@ -39,22 +39,26 @@ export const Breadcrumb: React.FunctionComponent<IBreadcrumbProps> = ({
 
   return (
     <div className={classnames("TreeMap__breadcrumb", className)}>
-      {items.map((item: IBreadcrumbItem, index: number) => (
-        <div key={index}>
-          <a
-            className="TreeMap__breadcrumbItem"
-            key={item.key}
-            id={`${item.key}`}
-            onClick={item.onClick ? item.onClick : undefined}
-            style={{ cursor: item.onClick ? "pointer" : "auto" }}
-          >
-            {item.text}
-          </a>
-          {index < items.length - 1 ? (
-            <span className="TreeMap__breadcrumbSeparator">/</span>
-          ) : null}
-        </div>
-      ))}
+      <ul id="breadcrumb">
+        {items.map((item: IBreadcrumbItem, index: number) => (
+          <li key={index}>
+            <a 
+              key={item.key}
+              id={`${item.key}`}
+              style={{ cursor: item.onClick ? "pointer" : "auto" }} 
+              onClick={item.onClick ? item.onClick : undefined} 
+              className="TreeMap__breadcrumbItem" 
+              href="#"><span>{item.text}</span>
+            </a>
+          </li>
+
+          // <div>
+          //   {index < items.length - 1 ? (
+          //     <span className="TreeMap__breadcrumbSeparator">/</span>
+          //   ) : null}
+          // </div>
+        ))}
+      </ul>
     </div>
   );
 };
