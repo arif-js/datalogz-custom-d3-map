@@ -1,0 +1,11 @@
+dist/
+node_modules/
+*.tgz
+npm-debug.log
+.cache
+public/
+coverage/
+
+webpack/stats
+
+.DS_Store
