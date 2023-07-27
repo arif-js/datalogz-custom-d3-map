@@ -5,6 +5,7 @@ export const data = {
       name: "AgglomerativeCluster",
       value: 3938,
       link: "https://blog.josequinto.com",
+      style: '{ "fill": "green" }',
     },
     { name: "CommunityStructure", value: 3812 },
     { name: "Child 2", value: 6714 },

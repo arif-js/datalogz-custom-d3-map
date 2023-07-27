@@ -51,12 +51,6 @@ export const Breadcrumb: React.FunctionComponent<IBreadcrumbProps> = ({
               href="#"><span>{item.text}</span>
             </a>
           </li>
-
-          // <div>
-          //   {index < items.length - 1 ? (
-          //     <span className="TreeMap__breadcrumbSeparator">/</span>
-          //   ) : null}
-          // </div>
         ))}
       </ul>
     </div>

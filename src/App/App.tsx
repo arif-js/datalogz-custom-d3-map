@@ -4,7 +4,7 @@ import { scaleSequential } from "d3-scale";
 import * as chromatic from "d3-scale-chromatic";
 
 import * as React from "react";
-import { data as data1 } from "../data/data";
+import { data as data1 } from "../data/data.1.level";
 import TreeMap, { ColorModel } from "../components/TreeMap";
 import { NumberOfChildrenPlacement } from "../components/Node";
 

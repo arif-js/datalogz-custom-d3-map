@@ -299,6 +299,7 @@ class TreeMap<TreeMapInputData> extends React.Component<
     const name = data[namePropInData];
     const url = data[linkPropInData];
     const nodeClassNameFromData = data["className"];
+    const nodeStyleFromData = data["style"] ? JSON.parse(data["style"]) : {};
 
     const hasChildren =
       node[childrenPropInData] && node[childrenPropInData].length > 0
@@ -339,6 +340,7 @@ class TreeMap<TreeMapInputData> extends React.Component<
           fontSize: 14,
           fontFamily: "Arial",
           ...nodeStyle,
+          ...nodeStyleFromData,
         }}
         hasChildren={hasChildren}
         hideNumberOfChildren={hideNumberOfChildren}
