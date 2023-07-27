@@ -36,6 +36,7 @@ export interface NodeProps {
   treemapId?: string;
   url: string;
   value: string;
+  hideValue: boolean;
   width?: number;
   xScaleFactor?: number;
   xScaleFunction?: ScaleLinear<number, number>;
@@ -62,6 +63,7 @@ const Node: React.FunctionComponent<NodeProps> = ({
   textColor,
   treemapId,
   url,
+  hideValue,
   value,
   width,
   x0,
@@ -129,6 +131,7 @@ const Node: React.FunctionComponent<NodeProps> = ({
     hideTooltip();
   }, [showTooltip]);
 
+  console.log(label, currentHeight)
   return (
     <g
       onMouseEnter={disableTooltip ? undefined : handleMouseMove}
@@ -173,7 +176,7 @@ const Node: React.FunctionComponent<NodeProps> = ({
           <LabelNewLine
             label={label}
             textColor={textColor}
-            value={value}
+            value={hideValue ? '' : value}
             hasChildren={hasChildren}
             containerWidth={clipWidth}
             containerHeight={currentHeight}

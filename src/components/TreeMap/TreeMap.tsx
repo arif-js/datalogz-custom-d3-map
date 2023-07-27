@@ -305,19 +305,14 @@ class TreeMap<TreeMapInputData> extends React.Component<
       node[childrenPropInData] && node[childrenPropInData].length > 0
         ? true
         : false;
-    let formatted = node[valuePropInData];
-    try {
-      formatted = this._valueFormatFunction(node[valuePropInData]);
-    } catch (e) {
-      console.warn(e);
-    }
-    const formattedValue = `(${formatted}${valueUnit ? ` ${valueUnit}` : ""})`;
+    const formattedValue = `(${data["value"]}${valueUnit ? ` ${valueUnit}` : ""})`;
 
     const nodeTotalNodes = node.descendants().length - 1;
 
     const { bgColor, textColor, borderColor } = this._getColorsFromNode(
       node,
       nodeTotalNodes,
+      nodeStyleFromData,
       {
         darkNodeTextColor,
         darkNodeBorderColor,
@@ -352,7 +347,8 @@ class TreeMap<TreeMapInputData> extends React.Component<
         onClick={!isSelectedNode ? this._onNodeClick : undefined}
         treemapId={treemapId}
         url={url}
-        value={!hideValue && formattedValue}
+        value={formattedValue}
+        hideValue={hideValue}
         x0={x0}
         x1={x1}
         xScaleFactor={xScaleFactor}
@@ -378,6 +374,7 @@ class TreeMap<TreeMapInputData> extends React.Component<
   private _getColorsFromNode(
     node: CustomHierarchyRectangularNode<TreeMapInputData>,
     nodeTotalNodes: number,
+    nodeStyleFromData,
     {
       darkNodeTextColor,
       darkNodeBorderColor,
@@ -388,45 +385,7 @@ class TreeMap<TreeMapInputData> extends React.Component<
     const { colorModel, valuePropInData } = this.props;
 
     let backgroundColor;
-    switch (colorModel) {
-      case ColorModel.Depth:
-        backgroundColor = this._nodesbgColorFunction(node.depth);
-        if (node.parent === null) {
-          backgroundColor = this._nodesbgColorFunction(0);
-        }
-        break;
-      case ColorModel.Value:
-        backgroundColor = this._nodesbgColorFunction(node[valuePropInData]);
-        if (node.parent === null) {
-          backgroundColor = this._nodesbgColorFunction(1);
-        }
-        break;
-      case ColorModel.NumberOfChildren:
-        backgroundColor = this._nodesbgColorFunction(nodeTotalNodes);
-        if (node.parent === null) {
-          backgroundColor = this._nodesbgColorFunction(1);
-        }
-        break;
-      case ColorModel.OneEachChildren:
-        const originalBackgroundColor = this._nodesbgColorFunction(
-          Utils.getTopSubParent<TreeMapInputData>(node)
-        );
-        if (node.depth > 1) {
-          backgroundColor = scaleLinear<string>()
-            .domain([0, node && node.children ? node.children.length : 0])
-            .interpolate(interpolateHcl)
-            .range(["white", originalBackgroundColor])(
-            Utils.getTopSubParent<TreeMapInputData>(node)
-          );
-        } else {
-          backgroundColor = originalBackgroundColor;
-        }
-        if (node.parent === null) {
-          backgroundColor = this._nodesbgColorFunction(0);
-        }
-      default:
-        break;
-    }
+    backgroundColor = nodeStyleFromData.fill;
 
     return {
       bgColor: backgroundColor,
