@@ -1,6 +1,6 @@
 {
   "name": "datalogz-custom-d3-map",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "a wrapper around the real package jquintozamora/react-d3-treemap",
   "main": "dist/datalogz-custom-d3-map.js",
   "types": "dist/indexPackage.d.ts",
