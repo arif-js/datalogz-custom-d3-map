@@ -131,7 +131,6 @@ const Node: React.FunctionComponent<NodeProps> = ({
     hideTooltip();
   }, [showTooltip]);
 
-  console.log(label, currentHeight)
   return (
     <g
       onMouseEnter={disableTooltip ? undefined : handleMouseMove}

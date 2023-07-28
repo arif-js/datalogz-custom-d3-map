@@ -3,6 +3,7 @@ import { IBreadcrumbItem } from "../Breadcrumb";
 import { CustomHierarchyRectangularNode } from "./TreeMap";
 export interface ITreeMapState<TreeMapInputData> {
   data: TreeMapInputData;
+  dataChanged: number;
   width: number;
   height: number;
   xScaleFactor: number;

@@ -34,6 +34,7 @@ class TreeMap<TreeMapInputData> extends React.Component<
   public static defaultProps: ITreeMapProps<{}> = {
     id: "myTreeMap",
     data: null,
+    dataChanged: 0,
     height: 600,
     width: 600,
     valueFormat: ",d",
@@ -56,6 +57,7 @@ class TreeMap<TreeMapInputData> extends React.Component<
     levelsToDisplay: 1,
   };
 
+
   // Note. This treemap element initially was using treemap and hierarchy directly on the render.
   //       I noticed a performance problem when the original data "this.props.data" has more than 1500 elements.
   //       Now, the component is designed to show only the first level of nodes and when click on one expand the rest.
@@ -63,15 +65,10 @@ class TreeMap<TreeMapInputData> extends React.Component<
   private _rootData: HierarchyRectangularNode<TreeMapInputData>;
   private _nodes: Array<CustomHierarchyRectangularNode<TreeMapInputData>>;
 
-  private _valueFormatFunction:
-    | ((n: number | { valueOf(): number }) => string)
-    | ((date: Date) => string);
-  private _nodesbgColorFunction: ScaleSequential<string>;
-
   constructor(props: ITreeMapProps<TreeMapInputData>) {
     super(props);
 
-    const { width, height, data, namePropInData } = props;
+    const { width, height, data, dataChanged, namePropInData } = props;
 
     this._createD3TreeMap(width, height, data);
 
@@ -80,6 +77,7 @@ class TreeMap<TreeMapInputData> extends React.Component<
       height,
       width,
       data,
+      dataChanged,
       xScaleFactor: 1,
       yScaleFactor: 1,
       xScaleFunction: scaleLinear().range([0, width]),
@@ -110,7 +108,24 @@ class TreeMap<TreeMapInputData> extends React.Component<
   public UNSAFE_componentWillReceiveProps(
     nextProps: ITreeMapProps<TreeMapInputData>
   ) {
-    const { width, height } = nextProps;
+    const { width, height, data, dataChanged } = nextProps;
+
+    if (this.state.dataChanged !== dataChanged) { // if the data changed
+      this._createD3TreeMap(width, height, data);
+      this._zoomTo(0);
+      this.setState({
+        data,
+        dataChanged,
+        width,
+        height,
+        xScaleFunction: scaleLinear().range([0, width]),
+        yScaleFunction: scaleLinear().range([0, height]),
+        selectedNode: this._treemap(
+          this._rootData
+        ) as CustomHierarchyRectangularNode<TreeMapInputData>,
+      });
+    }
+
     if (height !== this.props.height || width !== this.props.width) {
       this.setState({
         width,
@@ -201,12 +216,8 @@ class TreeMap<TreeMapInputData> extends React.Component<
       valuePropInData,
       childrenPropInData,
       paddingInner,
-      valueFormat,
       colorModel,
-      customD3ColorScale,
-      valueFn,
     } = this.props;
-
     // 1. Create treemap structure
     this._treemap = treemap<TreeMapInputData>()
       .size([width, height])
@@ -231,39 +242,6 @@ class TreeMap<TreeMapInputData> extends React.Component<
         item.customId = numberItemId++;
       })
       .descendants() as Array<CustomHierarchyRectangularNode<TreeMapInputData>>;
-
-    // Format function
-    try {
-      this._valueFormatFunction = valueFn ? valueFn : format(valueFormat);
-    } catch (e) {
-      console.warn(e);
-    }
-
-    let d: [number | { valueOf(): number }, number | { valueOf(): number }];
-    switch (colorModel) {
-      case ColorModel.Depth:
-        d = [0, Utils.getDepth<TreeMapInputData>(data, childrenPropInData) - 1];
-        break;
-      case ColorModel.Value:
-        d = extent(this._nodes, (n) => {
-          if (n.parent !== null) {
-            return n[valuePropInData];
-          }
-        });
-        break;
-      case ColorModel.NumberOfChildren:
-        d = extent(this._nodes, (n) =>
-          n.parent !== null ? n.descendants().length : 1
-        );
-        break;
-      case ColorModel.OneEachChildren:
-        d = [data[childrenPropInData] ? data[childrenPropInData].length : 0, 0];
-        break;
-      default:
-        break;
-    }
-
-    this._nodesbgColorFunction = customD3ColorScale.domain(d);
   }
 
   private _getNode(node: CustomHierarchyRectangularNode<TreeMapInputData>) {
@@ -382,8 +360,6 @@ class TreeMap<TreeMapInputData> extends React.Component<
       lightNodeBorderColor,
     }
   ) {
-    const { colorModel, valuePropInData } = this.props;
-
     let backgroundColor;
     backgroundColor = nodeStyleFromData.fill;
 

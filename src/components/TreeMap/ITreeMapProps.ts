@@ -33,6 +33,9 @@ export interface ITreeMapProps<TreeMapInputData> {
    */
   data: TreeMapInputData;
 
+  // Tracking if the dataset changed
+  dataChanged: number;
+
   /*
         Unit for values. For example MB
     */

@@ -5,6 +5,7 @@ import * as chromatic from "d3-scale-chromatic";
 
 import * as React from "react";
 import { data as data1 } from "../data/data.1.level";
+import { data as data2 } from "../data/data";
 import TreeMap, { ColorModel } from "../components/TreeMap";
 import { NumberOfChildrenPlacement } from "../components/Node";
 
@@ -16,7 +17,7 @@ interface TreeMapInPutData {
   style?: string;
 }
 
-class App extends React.Component<{}, { data: TreeMapInPutData }> {
+class App extends React.Component<{}, { data: TreeMapInPutData, dataChanged: number }> {
   private treeMapRef: React.RefObject<TreeMap<TreeMapInPutData>>;
 
   public addClassNameToNode(data: TreeMapInPutData, targetName: any, className: string) {
@@ -60,18 +61,23 @@ class App extends React.Component<{}, { data: TreeMapInPutData }> {
     return color;
   }
 
-  constructor(props) {
-    super(props);
-    
+  public applyHardcodedChanges = (data) => {
     // Adding hardcoded class name red: removed column / green: added column
-    let result = this.addClassNameToNode(data1, "Child 1.1", "redBG");
+    let result = this.addClassNameToNode(data, "Child 1.1", "redBG");
     result = this.addClassNameToNode(result, "Child 1.2", "greenBG");
 
     // Changing background color based on the value prop
     result = this.addStyleToNode(result);
 
+    return result;
+  }
+
+  constructor(props) {
+    super(props);
+    
     this.state = {
-      data: result,
+      data: this.applyHardcodedChanges(data1),
+      dataChanged: 1,
     };
     this.treeMapRef = React.createRef();
   }
@@ -92,6 +98,7 @@ class App extends React.Component<{}, { data: TreeMapInPutData }> {
           width={500}
           height={400}
           data={this.state.data}
+          dataChanged={this.state.dataChanged}
           className="AppTreeMap"
           nodeClassName="AppTreeMap__node"
           levelsToDisplay={1}
@@ -126,6 +133,13 @@ class App extends React.Component<{}, { data: TreeMapInPutData }> {
           lightNodeBorderColor="brown"
           lightNodeTextColor="brown"
         />
+
+      <button onClick={() => {
+        this.setState({ ...this.state, data: this.applyHardcodedChanges(data2), dataChanged: this.state.dataChanged+1 });
+      }}>ChangeData 2</button>
+      <button onClick={() => {
+        this.setState({ ...this.state, data: this.applyHardcodedChanges(data1), dataChanged: this.state.dataChanged+1 });
+      }}>ChangeData 1</button>
       </React.Fragment>
     );
   }
