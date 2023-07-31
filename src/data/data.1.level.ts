@@ -3,9 +3,11 @@ export const data = {
   value: 50,
   children: [
     {
-      name: "AgglomerativeCluster",
+      name: "table 1",
       value: 87,
       link: "https://blog.josequinto.com",
+      state: "added",
+      similarity_score: 1 // 0-100 // white -> blue
     },
     { name: "CommunityStructure", value: 30 },
     { name: "Child 2", value: 8 },

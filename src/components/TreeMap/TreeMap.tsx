@@ -283,7 +283,7 @@ class TreeMap<TreeMapInputData> extends React.Component<
       node[childrenPropInData] && node[childrenPropInData].length > 0
         ? true
         : false;
-    const formattedValue = `(${data["value"]}${valueUnit ? ` ${valueUnit}` : ""})`;
+    const formattedValue = `(${data[valuePropInData]}${valueUnit ? ` ${valueUnit}` : ""})`;
 
     const nodeTotalNodes = node.descendants().length - 1;
 
