@@ -46,6 +46,8 @@ class TreeMap<TreeMapInputData> extends React.Component<
     linkPropInData: "link",
     valuePropInData: "value", // can be value, count, ...
     childrenPropInData: "children",
+    statePropInData: "state",
+    typePropInData: "type",
     numberOfChildrenPlacement: NumberOfChildrenPlacement.BottomRight,
     darkNodeTextColor: "white",
     darkNodeBorderColor: "white",
@@ -256,6 +258,8 @@ class TreeMap<TreeMapInputData> extends React.Component<
       childrenPropInData,
       namePropInData,
       linkPropInData,
+      statePropInData,
+      typePropInData,
       numberOfChildrenPlacement,
       darkNodeTextColor,
       darkNodeBorderColor,
@@ -276,6 +280,8 @@ class TreeMap<TreeMapInputData> extends React.Component<
 
     const name = data[namePropInData];
     const url = data[linkPropInData];
+    const state = data[statePropInData];
+    const type = data[typePropInData];
     const nodeClassNameFromData = data["className"];
     const nodeStyleFromData = data["style"] ? JSON.parse(data["style"]) : {};
 
@@ -321,6 +327,8 @@ class TreeMap<TreeMapInputData> extends React.Component<
         isSelectedNode={isSelectedNode}
         key={customId}
         label={name}
+        state={state}
+        type={type}
         nodeTotalNodes={nodeTotalNodes}
         onClick={!isSelectedNode ? this._onNodeClick : undefined}
         treemapId={treemapId}

@@ -3,6 +3,8 @@ import { getTextDimensions, truncateText } from "../helpers";
 
 interface LabelNewLineProps {
   label: string;
+  state: string;
+  type: string;
   textColor: string;
   value: string;
   hasChildren: boolean;

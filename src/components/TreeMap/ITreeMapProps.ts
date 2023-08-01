@@ -65,9 +65,20 @@ export interface ITreeMapProps<TreeMapInputData> {
   colorModel?: ColorModel;
 
   /**
+   * statePropInData
+   */
+  statePropInData?: string;
+
+  /**
+   * typePropInData?: string
+   */
+  typePropInData?: string;
+
+  /**
    * Don't show the top right corner box indicating number of children
    */
   hideNumberOfChildren?: boolean;
+
 
   /**
    * Don't show the value

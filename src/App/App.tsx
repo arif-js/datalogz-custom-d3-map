@@ -15,6 +15,8 @@ interface TreeMapInPutData {
   children?: Array<TreeMapInPutData>;
   className?: string;
   style?: string;
+  type?: string;
+  state?: string;
 }
 
 class App extends React.Component<{}, { data: TreeMapInPutData, dataChanged: number }> {

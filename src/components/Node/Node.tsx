@@ -30,6 +30,8 @@ export interface NodeProps {
   id: number;
   isSelectedNode: boolean;
   label: string;
+  type: string;
+  state: string;
   nodeTotalNodes: number;
   onClick?: (ev?: React.MouseEvent<SVGElement>) => void;
   style?: React.CSSProperties;
@@ -58,6 +60,8 @@ const Node: React.FunctionComponent<NodeProps> = ({
   id,
   isSelectedNode,
   label,
+  type,
+  state,
   nodeTotalNodes,
   onClick,
   textColor,
@@ -122,7 +126,7 @@ const Node: React.FunctionComponent<NodeProps> = ({
 
   const handleMouseMove = React.useCallback(
     (ev: React.MouseEvent) => {
-      showTooltip(<Tooltip label={label} value={value} />, ev);
+      showTooltip(<Tooltip label={label} value={value} type={type} state={state} />, ev);
     },
     [showTooltip]
   );
@@ -174,6 +178,8 @@ const Node: React.FunctionComponent<NodeProps> = ({
         >
           <LabelNewLine
             label={label}
+            type={type}
+            state={state}
             textColor={textColor}
             value={hideValue ? '' : value}
             hasChildren={hasChildren}
