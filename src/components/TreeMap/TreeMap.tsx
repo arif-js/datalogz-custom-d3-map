@@ -10,9 +10,7 @@ import {
   treemapSquarify,
 } from "d3-hierarchy";
 import { scaleLinear, ScaleSequential, scaleSequential } from "d3-scale";
-import { extent } from "d3-array";
 import { interpolateSpectral } from "d3-scale-chromatic";
-import { interpolateHcl } from "d3-interpolate";
 
 import Node, { NumberOfChildrenPlacement } from "../Node";
 import Breadcrumb from "../Breadcrumb";
@@ -289,7 +287,7 @@ class TreeMap<TreeMapInputData> extends React.Component<
       node[childrenPropInData] && node[childrenPropInData].length > 0
         ? true
         : false;
-    const formattedValue = `(${data[valuePropInData]}${valueUnit ? ` ${valueUnit}` : ""})`;
+    const formattedValue = data[valuePropInData] ? `${Math.round((data[valuePropInData] + Number.EPSILON) * 100) / 100}${valueUnit ? ` ${valueUnit}` : ""}` : '';
 
     const nodeTotalNodes = node.descendants().length - 1;
 

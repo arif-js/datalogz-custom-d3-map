@@ -4,7 +4,7 @@ export const data = {
   children: [
     {
       name: "table 1",
-      value: 87,
+      value: 87.3333333,
       state: "added",
       type: "table"
     },
