@@ -4,7 +4,7 @@ import * as React from "react";
 import classnames from "classnames";
 import { ScaleLinear } from "d3-scale";
 import useTooltip from "../Tooltip/useTooltip";
-import { Tooltip } from "../Tooltip/Tooltip";
+import Tooltip from "../Tooltip/Tooltip";
 import NumberOfChildren, {
   NumberOfChildrenPlacement,
 } from "./NumberOfChildren";
@@ -128,7 +128,7 @@ const Node: React.FunctionComponent<NodeProps> = ({
     (ev: React.MouseEvent) => {
       showTooltip(<Tooltip label={label} value={value} type={type} state={state} />, ev);
     },
-    [showTooltip]
+    [showTooltip, value, label]
   );
 
   const handleMouseLeave = React.useCallback(() => {
