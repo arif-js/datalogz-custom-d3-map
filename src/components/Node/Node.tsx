@@ -32,6 +32,8 @@ export interface NodeProps {
   label: string;
   type: string;
   state: string;
+  dataType: string | undefined;
+  columnType: string | undefined;
   nodeTotalNodes: number;
   onClick?: (ev?: React.MouseEvent<SVGElement>) => void;
   style?: React.CSSProperties;
@@ -62,6 +64,8 @@ const Node: React.FunctionComponent<NodeProps> = ({
   label,
   type,
   state,
+  dataType,
+  columnType,
   nodeTotalNodes,
   onClick,
   textColor,
@@ -126,7 +130,7 @@ const Node: React.FunctionComponent<NodeProps> = ({
 
   const handleMouseMove = React.useCallback(
     (ev: React.MouseEvent) => {
-      showTooltip(<Tooltip label={label} value={value} type={type} state={state} />, ev);
+      showTooltip(<Tooltip label={label} value={value} type={type} state={state} columnType={columnType} dataType={dataType} />, ev);
     },
     [showTooltip, value, label]
   );

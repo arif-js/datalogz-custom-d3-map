@@ -97,12 +97,12 @@ class App extends React.Component<{}, { data: TreeMapInPutData, dataChanged: num
         <TreeMap<TreeMapInPutData>
           ref={this.treeMapRef}
           id="myTreeMap"
-          width={500}
-          height={400}
           data={this.state.data}
           dataChanged={this.state.dataChanged}
           className="AppTreeMap"
           nodeClassName="AppTreeMap__node"
+          valuePropInData="value"
+          colorModel={ColorModel.OneEachChildren}
           levelsToDisplay={1}
           paddingInner={2}
           onZoom={(level, id, items) => console.log({ level, id, items })}

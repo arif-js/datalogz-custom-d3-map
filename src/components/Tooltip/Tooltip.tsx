@@ -7,9 +7,11 @@ interface TooltipProps {
   value?: number | string | Date;
   state?: string;
   type?: string;
+  dataType?: string | undefined;
+  columnType?: string | undefined;
 }
 
-const Tooltip: React.FC<TooltipProps> = ({ label, value, type, state }) => {
+const Tooltip: React.FC<TooltipProps> = ({ label, value, type, state, columnType, dataType }) => {
   const { tooltipClassName } = useTooltip();
   return (
     <div className={tooltipClassName}>
@@ -22,6 +24,21 @@ const Tooltip: React.FC<TooltipProps> = ({ label, value, type, state }) => {
             <span className="TreeMap__tooltipValue">
               Similarity Score: {`${value}`}
             </span>
+            <br></br>
+            {state && <span className="TreeMap__tooltipValue">
+              State: {`${state}`}
+            </span>}
+            {columnType && <>
+              <br></br>
+              <span className="TreeMap__tooltipValue">
+                Column Type: {`${columnType}`}
+            </span>
+            </>}
+            {dataType && <>
+              <br></br><span className="TreeMap__tooltipValue">
+                Data Type: {`${dataType}`}
+              </span>
+            </>}
           </div>
         ) : (
           label

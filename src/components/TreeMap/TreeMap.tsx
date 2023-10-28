@@ -199,6 +199,7 @@ class TreeMap<TreeMapInputData> extends React.Component<
             height={height}
             width={width}
             style={{ ...svgStyle }}
+            // preserveAspectRatio="xMidYMid slice"
           >
             {reactNodes}
           </svg>
@@ -279,6 +280,8 @@ class TreeMap<TreeMapInputData> extends React.Component<
     const name = data[namePropInData];
     const url = data[linkPropInData];
     const state = data[statePropInData];
+    const dataType = data['data_type'];
+    const columnType = data['column_type'];
     const type = data[typePropInData];
     const nodeClassNameFromData = data["className"];
     const nodeStyleFromData = data["style"] ? JSON.parse(data["style"]) : {};
@@ -326,6 +329,8 @@ class TreeMap<TreeMapInputData> extends React.Component<
         key={customId}
         label={name}
         state={state}
+        dataType={dataType}
+        columnType={columnType}
         type={type}
         nodeTotalNodes={nodeTotalNodes}
         onClick={!isSelectedNode ? this._onNodeClick : undefined}
