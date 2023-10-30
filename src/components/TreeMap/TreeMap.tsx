@@ -387,7 +387,7 @@ class TreeMap<TreeMapInputData> extends React.Component<
     };
   }
 
-  private _zoomTo(nodeId: number) {
+  public _zoomTo(nodeId: number) {
     const { xScaleFunction, yScaleFunction, width, height } = this.state;
 
     const { onZoom } = this.props;

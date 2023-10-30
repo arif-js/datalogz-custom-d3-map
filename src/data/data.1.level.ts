@@ -16,7 +16,7 @@ export const data = {
       type: "table",
       state: "removed",
       children: [
-        { name: "Child 1.1", value: 10, type: "column" },
+        { name: "Child 1.1sdf sdfsf sdf", value: 10, type: "column" },
         { name: "Child 1.2", value: 45, type: "column" },
         { name: "Child 1.3", value: 2, type: "column" },
         {
