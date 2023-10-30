@@ -466,9 +466,14 @@ class TreeMap<TreeMapInputData> extends React.Component<
     return selectedNode.depth;
   }
 
-  public getSelectedNode() {
+  public getSelectedNodeId() {
     const { selectedId } = this.state;
     return selectedId;
+  }
+
+  public getSelectedNode() {
+    const { selectedNode } = this.state;
+    return selectedNode;
   }
 }
 
