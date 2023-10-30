@@ -387,7 +387,7 @@ class TreeMap<TreeMapInputData> extends React.Component<
     };
   }
 
-  public _zoomTo(nodeId: number) {
+  private _zoomTo(nodeId: number) {
     const { xScaleFunction, yScaleFunction, width, height } = this.state;
 
     const { onZoom } = this.props;
@@ -439,6 +439,10 @@ class TreeMap<TreeMapInputData> extends React.Component<
 
   public resetZoom() {
     this._zoomTo(0);
+  }
+
+  public zoomTo(id) {
+    this._zoomTo(id);
   }
 
   public zoomOut() {
