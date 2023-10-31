@@ -24,9 +24,18 @@ export const data = {
           type: "column",
           state: "copied",
           data_type: "DateTime",
-          value: 20,
-          expression: null,
-          column_type: "Data"
+          value: 23,
+          column_type: "Data",
+          expression: `
+          Measure=
+          SUMX(
+          FILTER(
+              Table,
+              Table[Column] > 10
+          ),
+          Table[ValueColumn]
+          )
+          `
         }
       ],
     },

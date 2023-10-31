@@ -282,6 +282,7 @@ class TreeMap<TreeMapInputData> extends React.Component<
     const state = data[statePropInData];
     const dataType = data['data_type'];
     const columnType = data['column_type'];
+    const expression = data['expression'];
     const type = data[typePropInData];
     const nodeClassNameFromData = data["className"];
     const nodeStyleFromData = data["style"] ? JSON.parse(data["style"]) : {};
@@ -331,6 +332,7 @@ class TreeMap<TreeMapInputData> extends React.Component<
         state={state}
         dataType={dataType}
         columnType={columnType}
+        expression={expression}
         type={type}
         nodeTotalNodes={nodeTotalNodes}
         onClick={!isSelectedNode ? this._onNodeClick : undefined}
