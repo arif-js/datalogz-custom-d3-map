@@ -22,7 +22,7 @@ function prettyFormatDAX(dax) {
 
       // Adjust the indentation if ending a block
       if (line.endsWith(')')) {
-          indentLevel--;
+          indentLevel = Math.max(0, indentLevel - 1);  // Ensure indentLevel is non-negative
       }
 
       // Add indentation
@@ -34,7 +34,7 @@ function prettyFormatDAX(dax) {
       }
   }
 
-  console.log(formattedDax.join('\n'))
+  console.log(formattedDax.join('\n'));
   return formattedDax.join('\n');
 }
 
