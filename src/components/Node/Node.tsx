@@ -35,6 +35,7 @@ export interface NodeProps {
   dataType: string | undefined;
   columnType: string | undefined;
   expression: string | undefined;
+  similarity_score: number | undefined;
   nodeTotalNodes: number;
   onClick?: (ev?: React.MouseEvent<SVGElement>) => void;
   style?: React.CSSProperties;
@@ -68,6 +69,7 @@ const Node: React.FunctionComponent<NodeProps> = ({
   dataType,
   columnType,
   expression,
+  similarity_score,
   nodeTotalNodes,
   onClick,
   textColor,
@@ -132,7 +134,7 @@ const Node: React.FunctionComponent<NodeProps> = ({
 
   const handleMouseMove = React.useCallback(
     (ev: React.MouseEvent) => {
-      showTooltip(<Tooltip label={label} value={value} type={type} expression={expression} state={state} columnType={columnType} dataType={dataType} />, ev);
+      showTooltip(<Tooltip label={label} similarity_score={similarity_score} value={value} type={type} expression={expression} state={state} columnType={columnType} dataType={dataType} />, ev);
     },
     [showTooltip, value, label]
   );

@@ -12,6 +12,7 @@ import { NumberOfChildrenPlacement } from "../components/Node";
 interface TreeMapInPutData {  
   name: string;
   value?: number;
+  sim_score?: number;
   children?: Array<TreeMapInPutData>;
   className?: string;
   style?: string;
@@ -40,8 +41,14 @@ class App extends React.Component<{}, { data: TreeMapInPutData, dataChanged: num
 
   public addStyleToNode(data: TreeMapInPutData) {
     // Check if the current data object has the target name
-    if (data.value) {
-        data.style = `{ "fill": "${this.getValueColor(data.value)}" }`; // Set the new key "style" for the target object
+    if (data.sim_score) {
+      data.style = `{ "fill": "${this.getValueColor(data.sim_score)}" }`; // Set the new key "style" for the target object
+    } else {
+      data.style = `{ "fill": "rgb(159, 198, 255)" }`
+    }
+
+    if (data.state === "copied") {
+      data.style = `{ "fill": "#fff" }`; // Set the new key "style" for the target object
     }
 
     // If the current data object has children, recursively search through them
@@ -54,12 +61,37 @@ class App extends React.Component<{}, { data: TreeMapInPutData, dataChanged: num
     return data;
   }
 
+  public convertValue(value) {
+    if (value === 1 && value > 0.8) {
+        return 0.1;  // Convert 1 to the lowest value between 0.1 and 0.2
+    } else if (value >= 0 && value < 0.8) {
+        return 0.5;  // Convert values between 0 and 0.8 to 0.5
+    } else {
+        return value;  // Return the original value for other cases
+    }
+  }
+
+
+  public changeValueBasedOnState (data: TreeMapInPutData) {
+    if (data.sim_score !== undefined) {
+      data.value = this.convertValue(data.sim_score)
+    }
+
+    if (data.children) {
+      for (const child of data.children) {
+        this.changeValueBasedOnState(child);
+      }
+    }
+
+    return data;
+  }
+
   public getValueColor(value: number) {
-    let outputValue = 100 - (value * 0.5);
+    let outputValue = 100 - (100 - (value*100));
 
     // Generate the RGB color string with varying opacity
     const color = `hsl(216, 100%, ${outputValue}%)`;
-
+ 
     return color;
   }
 
@@ -67,6 +99,7 @@ class App extends React.Component<{}, { data: TreeMapInPutData, dataChanged: num
     // Adding hardcoded class name red: removed column / green: added column
     let result = this.addClassNameToNode(data, "Child 1.1", "redBG");
     result = this.addClassNameToNode(result, "Child 1.2", "greenBG");
+    result = this.changeValueBasedOnState(result);
 
     // Changing background color based on the value prop
     result = this.addStyleToNode(result);

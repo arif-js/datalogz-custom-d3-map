@@ -231,7 +231,13 @@ class TreeMap<TreeMapInputData> extends React.Component<
     // 2. Before compute a hierarchical layout, we need a root node
     //    If the data is in JSON we use d3.hierarchy
     this._rootData = hierarchy(data)
-      .sum((s) => s[valuePropInData])
+      .sum((s) => {
+        if (s["state"] === "copied") {
+          return 1; // Smaller width for "copied" nodes
+        } else {
+          return 3; // Larger width for other nodes
+        }
+      })
       .sort(
         (a, b) => b.height - a.height || b[valuePropInData] - a[valuePropInData]
       ) as HierarchyRectangularNode<TreeMapInputData>;
@@ -282,6 +288,7 @@ class TreeMap<TreeMapInputData> extends React.Component<
     const state = data[statePropInData];
     const dataType = data['data_type'];
     const columnType = data['column_type'];
+    const similarity_score = data['sim_score'];
     const expression = data['expression'];
     const type = data[typePropInData];
     const nodeClassNameFromData = data["className"];
@@ -332,6 +339,7 @@ class TreeMap<TreeMapInputData> extends React.Component<
         state={state}
         dataType={dataType}
         columnType={columnType}
+        similarity_score={similarity_score}
         expression={expression}
         type={type}
         nodeTotalNodes={nodeTotalNodes}

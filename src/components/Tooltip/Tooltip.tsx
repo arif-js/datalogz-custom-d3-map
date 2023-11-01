@@ -10,6 +10,7 @@ interface TooltipProps {
   dataType?: string | undefined;
   columnType?: string | undefined;
   expression?: string | undefined;
+  similarity_score?: number | undefined;
 }
 
 function prettyFormatDAX(dax) {
@@ -34,11 +35,10 @@ function prettyFormatDAX(dax) {
       }
   }
 
-  console.log(formattedDax.join('\n'));
   return formattedDax.join('\n');
 }
 
-const Tooltip: React.FC<TooltipProps> = ({ label, value, type, state, columnType, dataType, expression }) => {
+const Tooltip: React.FC<TooltipProps> = ({ label, value, type, state, columnType, dataType, expression, similarity_score }) => {
   const { tooltipClassName } = useTooltip();
   return (
     <div className={tooltipClassName}>
@@ -48,9 +48,9 @@ const Tooltip: React.FC<TooltipProps> = ({ label, value, type, state, columnType
             <h4 className="TreeMap__tooltipLabel">
               {label} {type ? `(${type})` : ""}
             </h4>
-            <span className="TreeMap__tooltipValue">
-              <span style={{ color: "rgb(27 140 249)", fontWeight: 500 }}>Similarity Score:</span> {`${value}`}
-            </span>
+            {(similarity_score || similarity_score === 0) && <span className="TreeMap__tooltipValue">
+              <span style={{ color: "rgb(27 140 249)", fontWeight: 500 }}>Similarity Score:</span> {`${similarity_score}`}
+            </span>}
             <br></br>
             {state && <span className="TreeMap__tooltipValue">
               <span style={{ color: "rgb(27 140 249)", fontWeight: 500 }}>State:</span>: {`${state}`}
