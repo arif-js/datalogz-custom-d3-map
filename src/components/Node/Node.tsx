@@ -109,7 +109,7 @@ const Node: React.FunctionComponent<NodeProps> = ({
       : y0;
   
   // Modified width/height of the tile based on the state value
-  const currentWidth = width !== undefined ? width : xScaleFactor * (x1 - x0) > 80 && state === "copied" && !isSelectedNode ? 80 : xScaleFactor * (x1 - x0);
+  const currentWidth = width !== undefined ? width : xScaleFactor * (x1 - x0) > 200 && state === "copied" && !isSelectedNode ? 200 : xScaleFactor * (x1 - x0);
   const currentHeight = height !== undefined ? height : state === "copied" && yScaleFactor * (y1 - y0) > 50 && !isSelectedNode ? 50 : yScaleFactor * (y1 - y0);
 
   const cursor =
