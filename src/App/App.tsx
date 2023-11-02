@@ -62,24 +62,22 @@ class App extends React.Component<{}, { data: TreeMapInPutData, dataChanged: num
   }
 
   public convertValue(value) {
-    if (value === 1 && value > 0.8) {
-        return 0.1;  // Convert 1 to the lowest value between 0.1 and 0.2
+    if (value > 0.75) {
+      return 0.1;  
     } else if (value >= 0 && value < 0.8) {
-        return 0.5;  // Convert values between 0 and 0.8 to 0.5
-    } else {
-        return value;  // Return the original value for other cases
-    }
+        return 0.5; 
+    } 
   }
 
 
-  public changeValueBasedOnState (data: TreeMapInPutData) {
+  public changeValueBasedOnSimScore (data: TreeMapInPutData) {
     if (data.sim_score !== undefined) {
       data.value = this.convertValue(data.sim_score)
     }
 
     if (data.children) {
       for (const child of data.children) {
-        this.changeValueBasedOnState(child);
+        this.changeValueBasedOnSimScore(child);
       }
     }
 
@@ -99,7 +97,7 @@ class App extends React.Component<{}, { data: TreeMapInPutData, dataChanged: num
     // Adding hardcoded class name red: removed column / green: added column
     let result = this.addClassNameToNode(data, "Child 1.1", "redBG");
     result = this.addClassNameToNode(result, "Child 1.2", "greenBG");
-    result = this.changeValueBasedOnState(result);
+    result = this.changeValueBasedOnSimScore(result);
 
     // Changing background color based on the value prop
     result = this.addStyleToNode(result);
@@ -117,12 +115,12 @@ class App extends React.Component<{}, { data: TreeMapInPutData, dataChanged: num
     this.treeMapRef = React.createRef();
   }
 
-  componentDidMount() {
-    console.log(
-      "componentDidMount: ",
-      this.treeMapRef && this.treeMapRef.current
-    );
-  }
+  // componentDidMount() {
+  //   console.log(
+  //     "componentDidMount: ",
+  //     this.treeMapRef && this.treeMapRef.current
+  //   );
+  // }
 
   public render() {
     return (
@@ -138,10 +136,10 @@ class App extends React.Component<{}, { data: TreeMapInPutData, dataChanged: num
           colorModel={ColorModel.OneEachChildren}
           levelsToDisplay={1}
           paddingInner={2}
-          onZoom={(level, id, items) => console.log({ level, id, items })}
-          onTreeMapDidMount={(treeMap: TreeMap<TreeMapInPutData>) =>
-            console.log(treeMap.getZoomLevel())
-          }
+          // onZoom={(level, id, items) => console.log({ level, id, items })}
+          // onTreeMapDidMount={(treeMap: TreeMap<TreeMapInPutData>) =>
+          //   console.log(treeMap.getZoomLevel())
+          // }
           nodeStyle={{
             fontSize: 12,
             paddingTop: 2,
@@ -152,17 +150,8 @@ class App extends React.Component<{}, { data: TreeMapInPutData, dataChanged: num
           customD3ColorScale={scaleSequential(
             chromatic.interpolateSpectral
           )}
-          // svgStyle={{fontFamily: "'Courier New', Courier, monospace"}}
-          // nodeStyle={{ fill: "black", stroke: "white" }}
-          // disableBreadcrumb={true}
-          // hideNumberOfChildren={true}
           hideValue={true}
-          // tooltipOffsetY={25}
-          // tooltipClassName="MyCustomTooltip"
-          // tooltipPlacement="top"
-          // disableTooltip={true}
-          // valueUnit={"MB"}
-          // svgClassName="AppTreeMap__svg"
+          hideNumberOfChildren={true}
           darkNodeBorderColor="silver"
           darkNodeTextColor="white"
           lightNodeBorderColor="brown"

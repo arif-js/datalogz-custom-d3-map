@@ -10,6 +10,7 @@ import NumberOfChildren, {
 } from "./NumberOfChildren";
 import { getNumberItemsWidthByNumberOfChars } from "./helpers";
 import LabelNewLine from "./LabelNewLine";
+import { Utils } from "../../utils/Utils";
 
 export interface NodeProps {
   /*
@@ -36,6 +37,7 @@ export interface NodeProps {
   columnType: string | undefined;
   expression: string | undefined;
   similarity_score: number | undefined;
+  countChildren: number | undefined;
   nodeTotalNodes: number;
   onClick?: (ev?: React.MouseEvent<SVGElement>) => void;
   style?: React.CSSProperties;
@@ -70,6 +72,7 @@ const Node: React.FunctionComponent<NodeProps> = ({
   columnType,
   expression,
   similarity_score,
+  countChildren,
   nodeTotalNodes,
   onClick,
   textColor,
@@ -104,9 +107,10 @@ const Node: React.FunctionComponent<NodeProps> = ({
       : zoomEnabled === true
       ? yScaleFunction(y0)
       : y0;
-  const currentWidth = width !== undefined ? width : xScaleFactor * (x1 - x0);
-  const currentHeight =
-    height !== undefined ? height : yScaleFactor * (y1 - y0);
+  
+  // Modified width/height of the tile based on the state value
+  const currentWidth = width !== undefined ? width : xScaleFactor * (x1 - x0) > 80 && state === "copied" && !isSelectedNode ? 80 : xScaleFactor * (x1 - x0);
+  const currentHeight = height !== undefined ? height : state === "copied" && yScaleFactor * (y1 - y0) > 50 && !isSelectedNode ? 50 : yScaleFactor * (y1 - y0);
 
   const cursor =
     hasChildren === true && isSelectedNode === false ? "pointer" : "auto";
@@ -134,7 +138,7 @@ const Node: React.FunctionComponent<NodeProps> = ({
 
   const handleMouseMove = React.useCallback(
     (ev: React.MouseEvent) => {
-      showTooltip(<Tooltip label={label} similarity_score={similarity_score} value={value} type={type} expression={expression} state={state} columnType={columnType} dataType={dataType} />, ev);
+      showTooltip(<Tooltip label={label} countChildren={countChildren} similarity_score={similarity_score} value={value} type={type} expression={expression} state={state} columnType={columnType} dataType={dataType} />, ev);
     },
     [showTooltip, value, label]
   );
@@ -174,7 +178,7 @@ const Node: React.FunctionComponent<NodeProps> = ({
       >
         <text
           clipPath={`url(#clip-${treemapId}-${id})`}
-          transform={`translate(${style.paddingLeft || 0},${
+          transform={`translate(${style.paddingLeft || 0}, ${
             style.paddingTop || 0
           })`}
           style={{
@@ -186,6 +190,7 @@ const Node: React.FunctionComponent<NodeProps> = ({
         >
           <LabelNewLine
             label={label}
+            countChildren={countChildren}
             type={type}
             state={state}
             textColor={textColor}
@@ -197,6 +202,20 @@ const Node: React.FunctionComponent<NodeProps> = ({
           />
         </text>
       </a>
+
+      {/* Type value */}
+      <text
+          dy="2.1em" 
+        >
+          <tspan
+            fontSize={style.fontSize}
+            fill={textColor}
+            style={{ fontStyle: "italic" }}
+            dx={4}
+          >
+            {type ? Utils.capitalizeString(type) : ''}
+          </tspan>
+        </text>
       {showNumberOfItems && (
         <NumberOfChildren
           customId={id}

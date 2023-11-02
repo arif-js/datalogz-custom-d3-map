@@ -59,4 +59,8 @@ export class Utils {
       return Utils.getHighContrastColor(rgbColor.r, rgbColor.g, rgbColor.b);
     }
   }
+
+  public static capitalizeString(input: string) {
+    return input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
+  }
 }

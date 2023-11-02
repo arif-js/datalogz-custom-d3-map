@@ -1,6 +1,5 @@
 import * as React from "react";
 import classnames from "classnames";
-import { format } from "d3-format";
 
 import {
   TreemapLayout,
@@ -83,7 +82,6 @@ class TreeMap<TreeMapInputData> extends React.Component<
       xScaleFunction: scaleLinear().range([0, width]),
       yScaleFunction: scaleLinear().range([0, height]),
       zoomEnabled: false,
-      // TODO: Replace data.name by id
       breadcrumbItems: [
         {
           text: data[namePropInData],
@@ -235,11 +233,11 @@ class TreeMap<TreeMapInputData> extends React.Component<
         if (s["state"] === "copied") {
           return 1; // Smaller width for "copied" nodes
         } else {
-          return 3; // Larger width for other nodes
+          return 4; // Larger width for other nodes
         }
       })
       .sort(
-        (a, b) => b.height - a.height || b[valuePropInData] - a[valuePropInData]
+        (a, b) => a[valuePropInData] - b[valuePropInData]
       ) as HierarchyRectangularNode<TreeMapInputData>;
 
     // 3. Get array of nodes
@@ -290,6 +288,7 @@ class TreeMap<TreeMapInputData> extends React.Component<
     const columnType = data['column_type'];
     const similarity_score = data['sim_score'];
     const expression = data['expression'];
+    const countChildren = data['count_children'];
     const type = data[typePropInData];
     const nodeClassNameFromData = data["className"];
     const nodeStyleFromData = data["style"] ? JSON.parse(data["style"]) : {};
@@ -301,7 +300,6 @@ class TreeMap<TreeMapInputData> extends React.Component<
     const formattedValue = data[valuePropInData] ? `${Math.round((data[valuePropInData] + Number.EPSILON) * 100) / 100}${valueUnit ? ` ${valueUnit}` : ""}` : '';
 
     const nodeTotalNodes = node.descendants().length - 1;
-
     const { bgColor, textColor, borderColor } = this._getColorsFromNode(
       node,
       nodeTotalNodes,
@@ -341,6 +339,7 @@ class TreeMap<TreeMapInputData> extends React.Component<
         columnType={columnType}
         similarity_score={similarity_score}
         expression={expression}
+        countChildren={countChildren}
         type={type}
         nodeTotalNodes={nodeTotalNodes}
         onClick={!isSelectedNode ? this._onNodeClick : undefined}
